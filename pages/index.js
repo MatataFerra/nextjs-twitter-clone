@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react';
+import { loginWithGithub, onAuthStateChangedUser } from '../firebase/client';
+import Image from 'next/dist/client/image';
+import Github from '../components/icons/Github';
 import { Title } from '../components/home/Title';
 import { Button } from '../components/home/Button';
-import Image from 'next/dist/client/image';
-import home_styles from '../components/home/styles/home_styles'
+import { Avatar } from '../components/home/Avatar';
+import { Logo} from '../components/icons/Logo';
+import home_styles from '../components/home/styles/home_styles';
 import Footer from './Footer';
-import Github from '../components/icons/Github';
-import { loginWithGithub, onAuthStateChangedUser } from '../firebase/client'
-import { useEffect, useState } from 'react';
 
 const userCloseWindowError = (message) => {
   const error = new Error(message);
@@ -24,8 +26,6 @@ export default function Home() {
     .then(user => {
       const { email,  photoURL, accessToken, displayName } = user.user;
 
-      console.log(photoURL);
-
       setUserLogin({
         avatar: photoURL,
         username: displayName,
@@ -41,8 +41,8 @@ export default function Home() {
   }
   
   return (
-    <>
-      <Image src="/logo-practice.png" alt="Logo practice" width={150} height={150}/>
+    <div className='main-container'>
+      <Logo width={100}/>
       <Title />
       {
         userLogin === null &&
@@ -55,13 +55,12 @@ export default function Home() {
       {
         (userLogin && userLogin.avatar) && 
         <div>
-          <Image src={userLogin?.avatar} alt='Avatar Image' width={150} height={150}/>
-          <p>{userLogin?.username}</p>
+          <Avatar src={userLogin?.avatar} alt={userLogin?.username} withText />
         </div>
       }
       
       <style jsx> {home_styles} </style>
       {/* <Footer /> */}
-    </>
+    </div>
   )
 }

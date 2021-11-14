@@ -18,11 +18,11 @@ initializeApp(firebaseConfig);
 export const onAuthStateChangedUser = (onChange: (user: Object) => void) => {
   return getAuth().onAuthStateChanged(user => {
     const { email,  photoURL, displayName } = user;
-    const userNormalized = {
+    const userNormalized = user ? {
       avatar: photoURL,
       username: displayName,
       email,
-    }
+    } : null;
     onChange(userNormalized);
   });
 }
