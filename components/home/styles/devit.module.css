@@ -1,4 +1,14 @@
 .article {
-  display: flex;
-  padding: 10px 15px;
+  padding: 0 15px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.div {
+  padding: 1rem;
+}
+
+.p {
+  margin: 0;
 }

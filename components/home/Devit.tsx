@@ -6,9 +6,9 @@ export const Devit = ({username, avatar, message, id}) : JSX.Element => {
   return(
     <article className={styles.article} >
       <Avatar alt={username} src={avatar} />
-      <div>
+      <div className={styles.div} >
         <strong> {username} </strong>
-        <p> {message} </p>
+        <p className={styles.p} > {message} </p>
       </div>
     </article>
   )

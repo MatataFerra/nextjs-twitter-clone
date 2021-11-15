@@ -12,7 +12,7 @@ export default function HomePage() {
   }, []);
   return (
     <>
-      <div>
+      <div className={styles.container} >
         <header className={styles.header}>
           <h2 className={styles.h2}>Inicio</h2>
         </header>

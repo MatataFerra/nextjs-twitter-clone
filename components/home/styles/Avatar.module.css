@@ -1,14 +1,16 @@
 .avatar {
   border-radius: 9999px;
+  width: 100%;
 
 }
 
 .container {
   display: flex;
   align-items: center;
+  width: fit-content;
 }
 
-.string {
+.strong {
   margin-left: 0.5rem;
 }
 

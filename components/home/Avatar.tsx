@@ -7,7 +7,7 @@ export const Avatar = ({ src, alt = 'Avatar Image' , text, withText}):JSX.Elemen
   return (
     <div className={styles.container}>
       <Image src={src} alt={alt} width={49} height={49} className={styles.avatar} />
-      { withText && <strong style={{marginLeft: '0.5rem'}}>{text || alt}</strong>}
+      { withText && <strong className={styles.strong}>{text || alt}</strong>}
     </div>
   )
 }

@@ -1,11 +1,30 @@
+.container {
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  align-self: center;
+  width: 30%;
+
+}
+
+@media screen and (max-width: 600px) {
+
+  .container {
+    width: 100%;
+    align-self: unset;
+  }
+}
+
 .header{
   border-bottom: 1px solid #ccc;
   height: 49px;
   display: flex;
   align-items: center;
   width: 100%;
-  position: fixed;
+  position: sticky;
   z-index: 999;
+  background-color: #fff;
+  padding: 1rem;
 }
 
 .h2 {
