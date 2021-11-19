@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { loginWithGithub, onAuthStateChangedUser } from '../firebase/client';
-import Image from 'next/dist/client/image';
+import { useEffect } from 'react';
+import { loginWithGithub } from '../firebase/client';
+import useUser from '../hooks/useUser';
 import Github from '../components/icons/Github';
 import { Title } from '../components/home/Title';
 import { Button } from '../components/home/Button';
 import { Avatar } from '../components/home/Avatar';
 import { Logo} from '../components/icons/Logo';
 import home_styles from '../components/home/styles/home_styles';
-import Footer from './Footer';
+import { useRouter } from 'next/router';
 
 const userCloseWindowError = (message) => {
   const error = new Error(message);
@@ -15,11 +15,14 @@ const userCloseWindowError = (message) => {
 }
 
 export default function Home() {
-  const [userLogin, setUserLogin] = useState(undefined);
+  const user = useUser()
+  const router = useRouter();
 
   useEffect(() => {
-    onAuthStateChangedUser(setUserLogin);
-  }, []);
+    if (user) {
+      router.replace('/home');
+    }
+  }, [user, router]);
 
   const handleLoginGitHub = () => {
     loginWithGithub()
@@ -45,7 +48,7 @@ export default function Home() {
       <Logo width={100}/>
       <Title />
       {
-        userLogin === null &&
+        user === null &&
         <Button onClick={handleLoginGitHub}>
           <Github width={16} height={16} fill={'#FFF'} />
             Login With GitHub
@@ -53,9 +56,9 @@ export default function Home() {
       }
 
       {
-        (userLogin && userLogin.avatar) && 
+        (user && user.avatar) && 
         <div>
-          <Avatar src={userLogin?.avatar} alt={userLogin?.username} withText />
+          <Avatar src={user?.avatar} alt={user?.username} withText />
         </div>
       }
       

@@ -1,11 +1,10 @@
-.container {
+/* .container {
   border-radius: 10px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   margin: 0 auto;
   align-self: center;
-  width: 30%;
-
-}
+  width: 40%;
+} */
 
 @media screen and (max-width: 600px) {
 
@@ -16,15 +15,18 @@
 }
 
 .header{
-  border-bottom: 1px solid #ccc;
   height: 49px;
   display: flex;
   align-items: center;
   width: 100%;
   position: sticky;
+  top: 0;
   z-index: 999;
-  background-color: #fff;
-  padding: 1rem;
+  background-color: #ffffffaa;
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-bottom: 1px solid #eee;
+
 }
 
 .h2 {
@@ -32,12 +34,15 @@
 }
 
 .nav {
+  background-color: #ffffff;
   bottom: 0;
-  border-top: 1px solid #ccc;
-  position: fixed;
+  border-top: 1px solid #eee;
+  position: sticky;
   height: 49px;
 }
 
 .section {
-  padding-top: 70px;
+  padding-top: 1rem;
+  overflow-y: scroll;
+  height: 30rem;
 }
