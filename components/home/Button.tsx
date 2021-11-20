@@ -1,7 +1,13 @@
 
-export const Button = ({ children, onClick }): JSX.Element => (
+interface IButtonProps {
+  onClick?: () => void;
+  children?: React.ReactNode;
+  disabled?: boolean;
+}
+
+export const Button = ({ children, onClick, disabled } : IButtonProps) => (
   <>
-    <button onClick={onClick}>{children}</button>
+    <button onClick={onClick} disabled={disabled}> {children} </button>
 
     <style jsx>{`
 
@@ -22,6 +28,11 @@ export const Button = ({ children, onClick }): JSX.Element => (
 
       button:hover {
         opacity: 0.7;
+      }
+
+      button:disabled {
+        pointer-events: none;
+        opacity: 0.3;
       }
 
       button > :global(svg) {

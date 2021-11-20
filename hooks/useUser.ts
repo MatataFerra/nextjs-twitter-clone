@@ -7,8 +7,18 @@ enum USER_STATES {
   NOT_KNOWN = undefined
 }
 
-export default function useUser():Object {
-  const [ user, setUser ] = useState(USER_STATES.NOT_KNOWN);
+interface User {
+  uid?: string;
+  email?: string;
+  displayName?: string;
+  photoURL?: string;
+  emailVerified?: boolean;
+  avatar?: string;
+  state?: USER_STATES;
+}
+
+export default function useUser():User {
+  const [ user, setUser ] = useState(undefined);
   const router = useRouter();
 
   useEffect(() => {
@@ -16,7 +26,8 @@ export default function useUser():Object {
   }, []);
 
   useEffect(() => {
-    user === USER_STATES.NOT_LOGGED && router.push('/')
+    user === USER_STATES.NOT_LOGGED && console.log("Not logged");
+    
   }, [user, router]);
 
   return user;

@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
+import { getFirestore, collection, addDoc, Timestamp } from 'firebase/firestore'
 import { GithubAuthProvider, signInWithPopup, getAuth, UserCredential, onAuthStateChanged } from "firebase/auth";
-
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyDT2iDJSbPLo1tUWIdCjHyBk082Blsprgg",
@@ -13,15 +12,17 @@ const firebaseConfig = {
   measurementId: "G-428EQMZ2M7",
 };
 
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore();
 
-export const onAuthStateChangedUser = (onChange: (user: Object) => void) => {
-  return getAuth().onAuthStateChanged(user => {
-    const { email,  photoURL, displayName } = user;
+export const onAuthStateChangedUser = (onChange: (user : Object | null | undefined) => void) => {
+  return getAuth().onAuthStateChanged( user => {
+
     const userNormalized = user ? {
-      avatar: photoURL,
-      username: displayName,
-      email,
+      avatar: user?.photoURL,
+      username: user?.displayName,
+      email: user?.email,
+      uid: user?.uid,
     } : null;
     onChange(userNormalized);
   });
@@ -32,3 +33,15 @@ export const loginWithGithub = (): Promise<UserCredential> => {
   const auth = getAuth();
   return signInWithPopup(auth, provider);
 };
+
+export const addDevit = async ({avatar, content, userId, username}) => {
+  return await addDoc(collection(db, 'devits'), {
+    avatar,
+    content,
+    userId,
+    username,
+    createdAt: Timestamp.fromDate(new Date()),
+    likesCount: 0,
+    sharedCount: 0,
+  });
+}
