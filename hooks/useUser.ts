@@ -10,7 +10,7 @@ enum USER_STATES {
 interface User {
   uid?: string;
   email?: string;
-  displayName?: string;
+  username?: string;
   photoURL?: string;
   emailVerified?: boolean;
   avatar?: string;

@@ -3,6 +3,7 @@ import { Devit } from "../../components/home/Devit";
 import styles from "./home.module.css";
 import shared from "../styles/shared.module.css";
 import useUser from "../../hooks/useUser";
+import { fetchLatestDevits } from "../../firebase/client";
 
 export default function HomePage() {
   const [timeline, setTimeline] = useState([]);
@@ -10,9 +11,8 @@ export default function HomePage() {
 
   useEffect(() => {
     user && 
-    fetch("http://localhost:3000/api/timeline")
-      .then((res) => res.json())
-      .then(setTimeline);
+    fetchLatestDevits()
+      .then(setTimeline)
   }, [user]);
   return (
     <>
@@ -21,14 +21,18 @@ export default function HomePage() {
           <h2 className={styles.h2}>Inicio</h2>
         </header>
         <section className={styles.section}>
-          {timeline.map((devit) => (
-            <Devit
-              key={devit.id}
-              avatar={devit.avatar}
-              message={devit.message}
-              username={devit.username}
-            />
-          ))}
+          <div className={styles.divContainer}>
+            {timeline.map((devit) => (
+              <Devit
+                key={devit.id}
+                createdAt={devit.createdAt}
+                userId={devit.userId}
+                avatar={devit.avatar}
+                content={devit.content}
+                username={devit.username}
+              />
+            ))}
+          </div>
           <nav className={styles.nav}>
 
           </nav>

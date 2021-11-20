@@ -1,28 +1,52 @@
-import { useState } from 'react';
+import { ChangeEvent, FormEvent ,useState } from 'react';
+import { Button } from  '../../../components/home/Button';
+import { addDevit } from '../../../firebase/client';
+import { useRouter } from 'next/dist/client/router';
+import useUser from '../../../hooks/useUser';
+
 import shared from '../../styles/shared.module.css'
 import styles from './styles/compose.module.css';
-import { Button } from  '../../../components/home/Button';
-import useUser from '../../../hooks/useUser';
-import { addDevit } from '../../../firebase/client';
+
+enum COMPOSE_STATE {
+  LOADING,
+  SUCCESS,
+  ERROR,
+  USER_NOT_KNOWN
+}
 
 export default function ComposeTweet(): JSX.Element {
   const user = useUser();
+  const router = useRouter();
   const [message, setMessage] = useState('');
+  const [status, setStatus] = useState(COMPOSE_STATE.USER_NOT_KNOWN);
 
-  const handleChange = (e) => {
-    const { value } = e.target;
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = event.target;
     setMessage(value);
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const { username, avatar, uid } = user;
+
+    setStatus(COMPOSE_STATE.LOADING);
+
     addDevit({
-      avatar: user.avatar,
+      avatar: avatar,
       content: message,
-      userId: user.uid,
-      username: user.displayName,
+      userId: uid,
+      username: username,
+    })
+    .then(() => {
+      router.push('/home')
+    })
+    .catch(error => {
+      console.error(error);
+      setStatus(COMPOSE_STATE.ERROR);
     })
   }
+
+  const isButtonDisabled: boolean = message.trim().length === 0 || status === COMPOSE_STATE.LOADING
 
   return(
     <div className={shared.container}>
@@ -34,7 +58,7 @@ export default function ComposeTweet(): JSX.Element {
           onChange={handleChange}
         >
         </textarea>
-        <Button disabled={message.trim().length === 0} >Devitear</Button>
+        <Button disabled={isButtonDisabled} >Devitear</Button>
       </form>
     </div>
   )

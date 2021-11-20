@@ -42,7 +42,12 @@
 }
 
 .section {
-  padding-top: 1rem;
-  overflow-y: scroll;
+  overflow-y: hidden;
   height: 30rem;
+}
+
+.divContainer {
+  overflow-y: scroll;
+  height: calc(30rem - 49px - 49px);
+  padding-top: 1rem;
 }

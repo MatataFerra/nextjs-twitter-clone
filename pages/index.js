@@ -26,17 +26,6 @@ export default function Home() {
 
   const handleLoginGitHub = () => {
     loginWithGithub()
-    .then(user => {
-      const { email,  photoURL, accessToken, displayName } = user.user;
-
-      setUserLogin({
-        avatar: photoURL,
-        username: displayName,
-        token: accessToken,
-        email,
-      });
-      
-    })
     .catch(err => {
       console.log(err.message);
     })
