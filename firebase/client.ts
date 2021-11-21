@@ -58,14 +58,13 @@ export const fetchLatestDevits = async () => {
   return getDevits.docs.map( doc => {
     const data = doc.data()
     const { createdAt } = data;
-    const date = new Date(createdAt.seconds * 1000);
-    const normalizedCreatedAt = date.toLocaleDateString('es-AR', {year: 'numeric', month: 'numeric', day: 'numeric'});
-
+    
+    
     const id = doc.id;
     return {
       ...data,
       id,
-      createdAt: normalizedCreatedAt,
+      createdAt: +createdAt.toDate(),
     }
   } )
 }
