@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
+import  Link  from 'next/link'
 import { Devit } from "../../components/home/Devit";
+import Create from '../../components/icons/Create';
+import Home from '../../components/icons/Home';
+import Search from '../../components/icons/Search';
 import styles from "./home.module.css";
 import shared from "../styles/shared.module.css";
 import useUser from "../../hooks/useUser";
@@ -17,11 +21,11 @@ export default function HomePage() {
   return (
     <>
       <div className={shared.container} >
-        <header className={styles.header}>
-          <h2 className={styles.h2}>Inicio</h2>
-        </header>
         <section className={styles.section}>
           <div className={styles.divContainer}>
+            <header className={styles.header}>
+              <h2 className={styles.h2}>Inicio</h2>
+            </header>
             {timeline.map((devit) => (
               <Devit
                 key={devit.id}
@@ -30,10 +34,28 @@ export default function HomePage() {
                 avatar={devit.avatar}
                 content={devit.content}
                 username={devit.username}
+                image={devit.image}
               />
             ))}
           </div>
           <nav className={styles.nav}>
+            <Link href='/compose/tweet'>
+              <a>
+                <Create height={32} width={32} color='#09f' />
+              </a>
+            </Link>
+
+            <Link href='/search'>
+              <a>
+                <Search color='#09f'/>
+              </a>
+            </Link>
+
+            <Link href='/home'>
+              <a>
+                <Home color='#09f'/>
+              </a>
+            </Link>
 
           </nav>
         </section>

@@ -1,9 +1,10 @@
 import { Avatar } from "./Avatar";
+import Image from "next/dist/client/image";
 import PropTypes from "prop-types";
 import styles from './styles/devit.module.css';
 import useTimeAgo from "../../hooks/useTimeAgo";
 
-export const Devit = ({username, avatar, content, id, createdAt, userId}) : JSX.Element => {
+export const Devit = ({username, avatar, content, id, createdAt, userId, image}) : JSX.Element => {
   const timeago = useTimeAgo(createdAt);
 
   return(
@@ -16,7 +17,8 @@ export const Devit = ({username, avatar, content, id, createdAt, userId}) : JSX.
             <span>•</span>
             <small className={styles.small}> { timeago } </small>
           </header>
-          <p className={styles.p} > {content} </p>
+          <p className={styles.p}> {content} </p>
+          {image && <Image width={'450rem'} height={'250rem'} className={styles.image} src={image} alt={username} />}
         </div>
       </article>
     </>
@@ -29,6 +31,7 @@ Devit.propTypes = {
   content: PropTypes.string,
   id: PropTypes.string,
   createdAt: PropTypes.number,
-  userId: PropTypes.string
+  userId: PropTypes.string,
+  image: PropTypes.string
 }
 

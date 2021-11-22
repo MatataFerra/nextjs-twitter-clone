@@ -24,6 +24,7 @@ export const Button = ({ children, onClick, disabled } : IButtonProps) => (
 
         display: flex;
         align-items: center;
+
       }
 
       button:hover {

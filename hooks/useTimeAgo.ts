@@ -46,5 +46,5 @@ export default function useTimeAgo(timestamp: number): number | string {
   }, [timestamp])
   
   
-  return rtf.format(timeago.value, timeago.unit)
+  return rtf.format(timeago.value, timeago.unit as Intl.RelativeTimeFormatUnit);
 }

@@ -17,3 +17,8 @@
   font-size: 0.8rem;
   color: #777777;
 }
+
+.image {
+  border-radius: 10px;
+  object-fit: cover;
+}

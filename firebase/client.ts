@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, Timestamp, getDocs, query } from 'firebase/firestore'
+import { getStorage, ref, uploadBytesResumable, UploadTask } from "firebase/storage"
+import { getFirestore, collection, addDoc, Timestamp, getDocs, query, orderBy } from 'firebase/firestore'
 import { GithubAuthProvider, signInWithPopup, getAuth, UserCredential } from "firebase/auth";
 
 const firebaseConfig = {
@@ -12,7 +13,7 @@ const firebaseConfig = {
   measurementId: "G-428EQMZ2M7",
 };
 
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 const collectionRef = collection(db, 'devits');
 
@@ -35,14 +36,14 @@ export const loginWithGithub = (): Promise<UserCredential> => {
   return signInWithPopup(auth, provider);
 };
 
-export const addDevit = async ({avatar, content, userId, username}) => {
-
+export const addDevit = async ({avatar, content, userId, username, image}) => {
 
   const newDevit = {
     avatar,
     content,
     userId,
     username,
+    image,
     createdAt: Timestamp.fromDate(new Date()),
     likesCount: 0,
     sharedCount: 0,
@@ -53,13 +54,11 @@ export const addDevit = async ({avatar, content, userId, username}) => {
 
 export const fetchLatestDevits = async () => {
 
-  const getDevits = await getDocs(query(collectionRef));
+  const getDevits = await getDocs(query(collectionRef, orderBy('createdAt', 'desc')));
   
   return getDevits.docs.map( doc => {
     const data = doc.data()
     const { createdAt } = data;
-    
-    
     const id = doc.id;
     return {
       ...data,
@@ -67,4 +66,12 @@ export const fetchLatestDevits = async () => {
       createdAt: +createdAt.toDate(),
     }
   } )
+}
+
+export const uploadImage = (file: File) : UploadTask => {
+  const storageRef = getStorage(app)
+  const imageRef = ref(storageRef, `images/${file.name}`);
+  const task = uploadBytesResumable(imageRef, file);
+  
+  return task
 }
