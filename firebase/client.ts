@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApp, deleteApp } from "firebase/app";
 import { getStorage, ref, uploadBytesResumable, UploadTask } from "firebase/storage"
 import { getFirestore, collection, addDoc, Timestamp, getDocs, query, orderBy } from 'firebase/firestore'
 import { GithubAuthProvider, signInWithPopup, getAuth, UserCredential } from "firebase/auth";
@@ -13,12 +13,14 @@ const firebaseConfig = {
   measurementId: "G-428EQMZ2M7",
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore();
+const app = initializeApp(firebaseConfig, 'devter-matata');
+
+
+const db = getFirestore(app);
 const collectionRef = collection(db, 'devits');
 
 export const onAuthStateChangedUser = (onChange: (user : Object | null | undefined) => void) => {
-  return getAuth().onAuthStateChanged( user => {
+  return getAuth(app).onAuthStateChanged( user => {
 
     const userNormalized = user ? {
       avatar: user?.photoURL,
@@ -32,7 +34,7 @@ export const onAuthStateChangedUser = (onChange: (user : Object | null | undefin
 
 export const loginWithGithub = (): Promise<UserCredential> => {
   const provider = new GithubAuthProvider();
-  const auth = getAuth();
+  const auth = getAuth(app);
   return signInWithPopup(auth, provider);
 };
 
@@ -69,6 +71,7 @@ export const fetchLatestDevits = async () => {
 }
 
 export const uploadImage = (file: File) : UploadTask => {
+  const app = getApp('devter-matata');
   const storageRef = getStorage(app)
   const imageRef = ref(storageRef, `images/${file.name}`);
   const task = uploadBytesResumable(imageRef, file);

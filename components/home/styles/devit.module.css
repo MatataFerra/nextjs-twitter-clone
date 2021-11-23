@@ -3,6 +3,11 @@
   display: grid;
   grid-template-columns: auto 1fr;
   border-bottom: 1px solid #dbdbdb;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.article:hover {
+  background-color: #ebebebb7;
 }
 
 .div {

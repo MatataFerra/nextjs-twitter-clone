@@ -4,7 +4,7 @@ import useUser from '../hooks/useUser';
 import Github from '../components/icons/Github';
 import { Title } from '../components/home/Title';
 import { Button } from '../components/home/Button';
-import { Avatar } from '../components/home/Avatar';
+import { Spinner } from '../components/icons/Spinner';
 import { Logo} from '../components/icons/Logo';
 import home_styles from '../components/home/styles/home_styles';
 import { useRouter } from 'next/router';
@@ -47,12 +47,11 @@ export default function Home() {
       {
         (user && user.avatar) && 
         <div>
-          <Avatar src={user?.avatar} alt={user?.username} withText />
+          <Spinner />
         </div>
       }
       
       <style jsx> {home_styles} </style>
-      {/* <Footer /> */}
     </div>
   )
 }

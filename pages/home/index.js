@@ -29,6 +29,7 @@ export default function HomePage() {
             {timeline.map((devit) => (
               <Devit
                 key={devit.id}
+                id={devit.id}
                 createdAt={devit.createdAt}
                 userId={devit.userId}
                 avatar={devit.avatar}
