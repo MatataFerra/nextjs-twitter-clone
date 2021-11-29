@@ -16,16 +16,11 @@
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
+    "isolatedModules": false,
+    "jsx": "preserve",
+    "types": ["cypress"]
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-, "firebase/client.ts"  ],
-  "exclude": [
-    "node_modules",
-    "./cypress"
+    "./"
   ]
 }

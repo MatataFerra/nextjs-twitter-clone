@@ -1,5 +1,4 @@
-import PropTypes from "prop-types";
-import { MouseEvent, MouseEventHandler } from "react";
+import { MouseEvent } from "react";
 import Link from "next/dist/client/link";
 import Image from "next/dist/client/image";
 import useTimeAgo from "../../hooks/useTimeAgo";
@@ -7,14 +6,29 @@ import { Avatar } from "./Avatar";
 import styles from './styles/devit.module.css';
 import { useRouter } from "next/dist/client/router";
 
-export const Devit = ({username, 
+interface DevitProps {
+  avatar?: string;
+  name?: string;
+  username?: string;
+  createdAt?: number;
+  content?: string;
+  id?: string;
+  image?: string;
+  userId?: string;
+  sharedCount?: number;
+  likeCount?: number;
+}
+
+export const Devit : React.FC<DevitProps> = ({
+    username, 
     avatar, 
     content, 
     id, 
     createdAt, 
     userId, 
-    image
-}) : JSX.Element => {
+    image,
+    ...props
+}) => {
   const timeago = useTimeAgo(createdAt);
   const router = useRouter();
 
@@ -25,7 +39,7 @@ export const Devit = ({username,
 
   return(
     <>
-      <article className={styles.article} onClick={handleClickArticle}>
+      <article className={styles.article} onClick={handleClickArticle} {...props}>
         <Avatar alt={username} src={avatar} />
         <div className={styles.div} >
           <header>
@@ -43,15 +57,5 @@ export const Devit = ({username,
       </article>
     </>
   )
-}
-
-Devit.propTypes = {
-  username: PropTypes.string.isRequired,
-  avatar: PropTypes.string,
-  content: PropTypes.string,
-  id: PropTypes.string,
-  createdAt: PropTypes.number,
-  userId: PropTypes.string,
-  image: PropTypes.string
 }
 

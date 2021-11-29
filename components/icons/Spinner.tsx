@@ -31,7 +31,7 @@ export const Spinner = () => {
           width: 7px;
           height: 7px;
           border-radius: 50%;
-          background: #fff;
+          background: #000;
           margin: -4px 0 0 -4px;
         }
         .lds-roller div:nth-child(1) {

@@ -1,26 +1,46 @@
 import { useEffect, useState } from "react";
 import  Link  from 'next/link'
 import { Devit } from "../../components/home/Devit";
+import { FooterHome } from './components/Footer';
 import Create from '../../components/icons/Create';
 import Home from '../../components/icons/Home';
 import Search from '../../components/icons/Search';
 import styles from "./home.module.css";
 import shared from "../styles/shared.module.css";
 import useUser from "../../hooks/useUser";
-import { fetchLatestDevits } from "../../firebase/client";
+import { listenLatestDevits } from "../../firebase/client";
 
 export default function HomePage() {
   const [timeline, setTimeline] = useState([]);
   const user = useUser();
 
+  const devitTest = [{
+    id: "1",
+    createdAt: new Date(),
+    userId: "01",
+    avatar: "https://avatars.githubusercontent.com/u/65474240?v=4",
+    content: "Este es un testing devit",
+    username: "Matata_Test",
+    image: null
+
+  }]
+
   useEffect(() => {
-    user && 
-    fetchLatestDevits()
-      .then(setTimeline)
+    let unsuscribe = null;
+    if (user) {
+      unsuscribe = listenLatestDevits(setTimeline)
+    }
+    return () => unsuscribe && unsuscribe()
+
   }, [user]);
+
+  useEffect(()=> {
+    console.log(timeline)
+  })
+
   return (
     <>
-      <div className={shared.container} >
+      <div className={shared.container}>
         <section className={styles.section}>
           <div className={styles.divContainer}>
             <header className={styles.header}>
@@ -28,6 +48,7 @@ export default function HomePage() {
             </header>
             {timeline.map((devit) => (
               <Devit
+                data-testid="devit"
                 key={devit.id}
                 id={devit.id}
                 createdAt={devit.createdAt}
@@ -35,30 +56,11 @@ export default function HomePage() {
                 avatar={devit.avatar}
                 content={devit.content}
                 username={devit.username}
-                image={devit.image}
+                image={devit?.image}
               />
             ))}
           </div>
-          <nav className={styles.nav}>
-            <Link href='/compose/tweet'>
-              <a>
-                <Create height={32} width={32} color='#09f' />
-              </a>
-            </Link>
-
-            <Link href='/search'>
-              <a>
-                <Search color='#09f'/>
-              </a>
-            </Link>
-
-            <Link href='/home'>
-              <a>
-                <Home color='#09f'/>
-              </a>
-            </Link>
-
-          </nav>
+          <FooterHome />
         </section>
       </div>
     </>
